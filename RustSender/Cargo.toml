@@ -1,0 +1,12 @@
+[package]
+name = "Rust_RMQ_Sender"
+version = "0.1.0"
+authors = ["Chris <chrisdvd@live.nl>"]
+edition = "2018"
+
+[[bin]]
+name = "main"
+path = "src/main.rs"
+
+[dependencies]
+amiquip = "0.3"
