@@ -2,6 +2,14 @@
 
 https://www.rabbitmq.com/download.html
 
+You should also have Python 3.x installed
+
+For running rust you will need rustup: https://rustup.rs/
+
+I trust you to be able to run either Python or Rust inside a terminal window. Otherwise, Google is your best friend.
+* dont forget to install `requirements.txt` with pip(3)
+* or run `pip install pika`
+* use `cargo run` command inside either `RustReceiver` or `RustSender` (requires rustup to be installed)
 
 # Explanation
 Rabbit MQ (RMQ) is like a (huge) Mailbox with sorting machines and messengers inside to make message M go from A to B.
