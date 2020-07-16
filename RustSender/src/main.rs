@@ -13,11 +13,13 @@ fn main() -> Result<()> {
     // Open a channel - None says let the library choose the channel ID.
     let channel = connection.open_channel(None)?;
 
+    // declare the direct 'messages' exchange
     let direct_exchange = channel.exchange_declare(
         ExchangeType::Direct,
         "messages",
         ExchangeDeclareOptions::default(),
     )?;
+    // publish 10 messages to the direct 'messages' exchange with routing_key being 'red'
     for i in 1..=10 {
         direct_exchange.publish(Publish::new(
             format!("hello there: {}", i).as_bytes(),
@@ -25,6 +27,7 @@ fn main() -> Result<()> {
         ))?;
     }
 
+    // read the current message number
     let mut contents = String::new();
     let file = File::open("number.txt");
 
@@ -37,6 +40,7 @@ fn main() -> Result<()> {
 
     println!("{}", contents);
 
+    // parse string number to integer
     let number = contents.parse::<i32>();
 
     let mut number = match number {
@@ -45,13 +49,15 @@ fn main() -> Result<()> {
         Err(error) => panic!("Problem opening the file: {:?}", error),
     };
 
-    // Declare the fanout exchange we will bind to.
+
+    // Declare the fanout 'logs' exchange we will bind to.
     let exchange = channel.exchange_declare(
         ExchangeType::Fanout,
         "logs",
         ExchangeDeclareOptions::default(),
     )?;
 
+    // send 100 messages to the exchange with an incrementing number
     for i in 1..=100 {
         // Publish a message to the "hello" queue.
         exchange.publish(Publish::new(
@@ -60,6 +66,7 @@ fn main() -> Result<()> {
         ))?;
     }
 
+    // increment and save the number to the file
     if number == 0 {
         number += 100;
     } else if number > 0 {
